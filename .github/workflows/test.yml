@@ -1,0 +1,31 @@
+name: Automated Testing
+
+on:
+  push:
+    branches:
+      - main # Adjust if your default branch is different
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Run tests
+        run: |
+          python3 find_lowest_number.py test_data/test1_input.txt test_data/test1_output.txt
+          python3 find_lowest_number.py test_data/test2_input.txt test_data/test2_output.txt
+          python3 find_lowest_number.py test_data/test3_input.txt test_data/test3_output.txt
+
+      - name: Compare output to expected
+        run: |
+          diff -u test_data/test1_output.txt test_data/test1_expected.txt
+          diff -u test_data/test2_output.txt test_data/test2_expected.txt
+          diff -u test_data/test3_output.txt test_data/test3_expected.txt
